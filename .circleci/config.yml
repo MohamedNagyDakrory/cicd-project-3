@@ -103,9 +103,9 @@ jobs:
       - restore_cache:
           keys: [frontend-deps]
       - run:
-          name: Back-end scan
+          name: front-end scan
           command: |
-            cd backend
+            cd frontend
             npm isntall 
             npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical  
