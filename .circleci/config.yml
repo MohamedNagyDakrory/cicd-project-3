@@ -152,9 +152,9 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      -checkout
-      -install_awscli
-      - run
+      - checkout
+      - install_awscli
+      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
