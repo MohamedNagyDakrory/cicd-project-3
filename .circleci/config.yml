@@ -234,6 +234,8 @@ jobs:
             npm install
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
+            npm install 
+            npm audit fix --force --audit-level=critical
       - run:
           name: Send migration results to kvdb.io
           command: |
@@ -243,7 +245,7 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-
+      
   deploy-frontend:
     docker:
       - image: cimg/base:stable
