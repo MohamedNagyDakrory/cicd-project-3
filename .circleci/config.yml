@@ -271,13 +271,13 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-              cd frontend
-              npm run build
-              aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive 
-              npm audit fix
-              npm audit fix --force --audit-level=critical
-              npm audit fix --force --audit-level=critical
-              npm audit --audit-level=critical  
+            cd frontend
+            npm run build
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive 
+            npm audit fix
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
+            npm audit --audit-level=critical  
      
       - destroy-environment
       - revert-migrations
