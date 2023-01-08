@@ -388,7 +388,7 @@ jobs:
     steps:
       - checkout
       - install_awscli
-      - install_nodejst
+      - install_nodejs
       - run:
           name: Remove old stacks and files
           command: |
