@@ -288,8 +288,7 @@ jobs:
       - install_nodejs
       - add_ssh_keys:
           fingerprints: ["f9:50:30:ba:cb:f1:4e:cf:1c:32:80:5e:f8:07:ab:ff"]
-
-      - attach_ workspace:   
+      - attach_workspace:
           at: ~/
       - restore_cache:
           keys: [backend-deps]
