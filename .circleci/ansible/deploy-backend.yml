@@ -1,10 +1,7 @@
 ---
-- name: "deployment play."
+- name: "configuration play."
   hosts: web
-  remote_user: ubuntu
-  become: true
-  become_method: sude 
-  become_user: root
+  user: ubuntu
   gather_facts: false
   vars:
     - ansible_python_interpreter: /usr/bin/python3
