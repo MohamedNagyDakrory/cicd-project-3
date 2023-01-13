@@ -385,9 +385,7 @@ jobs:
                 --tags project=udapeople \
                 --stack-name "InitialStack-${OldWorkflowID}" \
                 --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"        
-      - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail
+      - revert-migrations
 
 
   cleanup:
