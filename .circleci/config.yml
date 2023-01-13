@@ -363,14 +363,14 @@ jobs:
       - checkout
       - install_awscli
       - install_nodejs
-      - run:
-          name: Install dependencies
-          command: |
-            yum install -y tar gzip curl
-            yum install -y python3 python3-pip
-            # script to install Node.js onto Fedora based systems
-            curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
-            yum -y install nodejs
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       yum install -y tar gzip curl
+      #       yum install -y python3 python3-pip
+      #       # script to install Node.js onto Fedora based systems
+      #       curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
+      #       yum -y install nodejs
       - run:
           name: Update cloudfront distribution
           command: |
