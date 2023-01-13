@@ -361,27 +361,32 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - install_awscli
-      - install_nodejs
       - run:
-          name: Save Old Workflow ID to kvdb.io
+          name: Install dependencies
           command: |
-            export OLD_WORKFLOW_ID=$(aws cloudformation \
-                      list-exports --query "Exports[?name==\`WorkflowID\`].value" \
-                      --no-paginate --output text)
-            echo "Old Workflow ID: $OLD_WORKFLOW_ID"
-            curl https://kvdb.io/${KVDB_BUCKET}/old_workflow_id -d "${OLD_WORKFLOW_ID}"
+            yum install -y tar gzip curl
+            yum install -y python3 python3-pip
+            # script to install Node.js onto Fedora based systems
+            curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
+            yum -y install nodejs
       - run:
           name: Update cloudfront distribution
           command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/cloudfront.yml \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --stack-name InitialStack
-      - destroy-environment
-      - revert-migrations
-
-
+           export OldWorkflowID=$(aws cloudformation \
+                   list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                   --no-paginate --output text)
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            curl -k https://kvdb.io/JEoC9j1n6xyvfuchcPS4MY/oldid_${CIRCLE_WORKFLOW_ID:0:7} -d ${OldWorkflowID}
+              aws cloudformation deploy \
+               --template-file .circleci/files/cloudfront.yml \
+               --tags project=udapeople \
+               --stack-name "InitialStack-${OldWorkflowID}" \
+               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"        
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          when: on_fail
+      
   cleanup:
     docker:
       - image: cimg/base:stable
